@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  crawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: notion-proxy-ng-crawler:latest
+    environment:
+      - TZ="Europe/Madrid"
+    volumes:
+      - ./crawler:/app/crawler/crawler
+      - ./config:/app/crawler/config
+      - ../site:/app/crawler/site
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
