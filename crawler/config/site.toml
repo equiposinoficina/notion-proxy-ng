@@ -8,6 +8,7 @@ name = "Notion Test Site"
 # the notion.so page to being parsing from. This page will become the index.html
 # of the generated site, and loconotation will parse all sub-pages present on the page
 page = "https://www.notion.so/Loconotion-Example-Page-03c403f4fdc94cc1b315b9469a8950ef"
+#page = "https://www.notion.so/2604ce45890645c79f67d92833083fee?v=e138f6fdcea24f87b442577732b2052d"
 
 ## Global Site Settings ##
 # this [site] table defines override settings for the whole site
@@ -64,9 +65,9 @@ page = "https://www.notion.so/Loconotion-Example-Page-03c403f4fdc94cc1b315b9469a
   #   <script src="custom-script.js" type="text/javascript"></script>
   # note that all href / src files are copied to the root of the site folder 
   # regardless of their original path
-  [[site.inject.body.script]]
-  type="text/javascript"
-  src="/example/custom-script.js"
+  #[[site.inject.body.script]]
+  #type="text/javascript"
+  #src="/example/custom-script.js"
 
 ## Individual Page Settings ##
 # the [pages] table defines override settings for individual pages, by defining 
@@ -99,7 +100,7 @@ page = "https://www.notion.so/Loconotion-Example-Page-03c403f4fdc94cc1b315b9469a
 
     # don't follow any link on the page, skipping parsing sub-pages linked from this one
     # useful for large tables where we don't want individual pages for each item
-    no-links = true
+    no-links = false
 
   [pages.a28dba2e7a67448da52f2cd2c641407b]
     slug = "random-board"

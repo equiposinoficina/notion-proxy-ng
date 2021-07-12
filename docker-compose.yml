@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  nginx:
+    image: openresty/openresty:bionic
+    restart: unless-stopped
+    environment:
+      - TZ="Europe/Madrid"
+    ports:
+      - 80:80
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./http/var:/var/run/openresty
+      - ./http/config/main.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./site:/notion-proxy-ng/html
+      - ./http/modules:/notion-proxy-ng/modules

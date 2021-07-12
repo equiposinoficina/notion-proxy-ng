@@ -467,9 +467,7 @@ class Parser:
         # if there are any table views in the page, add links to the title rows
         # the link to the row item is equal to its data-block-id without dashes
         for table_view in soup.findAll("div", {"class": "notion-table-view"}):
-            for table_row in table_view.findAll(
-                    "div", {"class": "notion-collection-item"}
-            ):
+            for table_row in table_view.findAll("div", {"class": "notion-collection-item"}):
                 table_row_block_id = table_row["data-block-id"]
                 table_row_href = "/" + table_row_block_id.replace("-", "")
                 row_target_span = table_row.find("span")
@@ -477,8 +475,12 @@ class Parser:
                 row_link_wrapper = soup.new_tag(
                     "a", attrs={"href": table_row_href, "style": "cursor: pointer; color: inherit; text-decoration: none; fill: inherit;"}
                 )
+                #log.error(f"debug: {row_link_wrapper}")
+                #row_target_span.insert_before(row_link_wrapper)
                 row_target_span.wrap(row_link_wrapper)
+                #open('/app/crawler/site/dev.html','w').write(str(soup))
 
+        
         # embed custom google font(s)
         fonts_selectors = {
             "site": "div:not(.notion-code-block)",
@@ -524,7 +526,7 @@ class Parser:
                 )
             # finally append the font overrides stylesheets to the page
             soup.head.append(font_override_stylesheet)
-
+        
         # inject any custom elements to the page
         custom_injects = self.get_page_config(url).get("inject", {})
 
@@ -549,19 +551,17 @@ class Parser:
 
         injects_custom_tags("head")
         injects_custom_tags("body")
-
-        # inject loconotion's custom stylesheet and script
-        loconotion_custom_css = self.cache_file(Path("bundles/loconotion.css"))
+        
+        # inject custom stylesheet and script
         custom_css = soup.new_tag(
-            "link", rel="stylesheet", href=str(loconotion_custom_css)
+            "link", rel="stylesheet", href="/assets/notion-proxy.css"
         )
-        soup.head.insert(-1, custom_css)
-        loconotion_custom_js = self.cache_file(Path("bundles/loconotion.js"))
+        soup.head.insert(-1, custom_css)       
         custom_script = soup.new_tag(
-            "script", type="text/javascript", src=str(loconotion_custom_js)
+            "script", type="text/javascript", src="/assets/notion-proxy.js"
         )
         soup.body.insert(-1, custom_script)
-
+        
         # find sub-pages and clean slugs / links
         sub_pages = []
         parse_links = not self.get_page_config(url).get("no-links", False)
@@ -609,7 +609,7 @@ class Parser:
                             style['cursor'] = "default"
                             child['style'] = style.cssText
 
-            
+        
         # exports the parsed page
         html_str = str(soup)
         html_file = self.get_page_id(url) if url != index else "index.html"
@@ -624,6 +624,7 @@ class Parser:
             f.write(html_str.encode("utf-8").strip())
         processed_pages[url] = html_file
 
+        
         # parse sub-pages
         if sub_pages and not self.args.get("single_page", False):
             if processed_pages:
@@ -635,6 +636,7 @@ class Parser:
                     )
 
         # we're all done!
+        
         return processed_pages
 
     def load(self, url):

@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: notion-proxy-ng-crawler:latest
+    restart: always
     environment:
       - TZ="Europe/Madrid"
     volumes:
@@ -13,4 +14,4 @@ services:
       - ./config:/app/crawler/config
       - ../site:/app/crawler/site
       - /etc/localtime:/etc/localtime:ro
-    restart: always
+    
