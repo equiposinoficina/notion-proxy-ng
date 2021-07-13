@@ -1,4 +1,4 @@
-const { Client } = require('@notionhq/client');
+const { Client, LogLevel } = require('@notionhq/client');
 var fs = require('fs');
 const config = require('config');
 var slugify = require('slugify');
@@ -7,7 +7,10 @@ const NOTION_API = config.get('NOTION_API');
 const DATABASE_IDS = config.get('DATABASE_IDS');
 const SLUGS_JSON = config.get('SLUGS_JSON');
 
-const notion = new Client({ auth: NOTION_API });
+const notion = new Client({ 
+  auth: NOTION_API,
+  logLevel: LogLevel.DEBUG
+});
 
 (async () => {
   var json = {};

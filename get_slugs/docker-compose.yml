@@ -1,0 +1,11 @@
+version: '3'
+services:
+  get_slugs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: notion-proxy-ng/get_slugs
+    container_name: get_slugs
+    volumes:
+      - ./config:/notion-proxy/config
+      - ../cache:/notion-proxy/cache

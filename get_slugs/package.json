@@ -1,0 +1,17 @@
+{
+  "name": "get_slugs",
+  "version": "1.0.0",
+  "description": "create slugs cache ",
+  "main": "get_slugs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@notionhq/client": "^0.2.2",
+    "cjs": "0.0.11",
+    "config": "^3.3.6",
+    "slugify": "^1.5.3"
+  }
+}

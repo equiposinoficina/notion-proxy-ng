@@ -1,4 +1,3 @@
--- author: oriol@joor.net - license: MIT license
 local puremagic = require('puremagic')
 local lib = {}
 
