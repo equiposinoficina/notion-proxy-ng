@@ -14,4 +14,9 @@ services:
       - ./config:/app/crawler/config
       - ../site:/app/crawler/site
       - /etc/localtime:/etc/localtime:ro
+    extra_hosts:
+      - "youtu.be:10.2.0.1"
+      - "youtube.com:10.2.0.1"
+      - "www.youtube.com:10.2.0.1"
+      - "industry40.systems:10.2.0.1"
     

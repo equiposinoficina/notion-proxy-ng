@@ -14,3 +14,4 @@ services:
       - ./http/config/main.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./site:/notion-proxy-ng/html
       - ./http/modules:/notion-proxy-ng/modules
+      - ./cache:/notion-proxy-ng/cache:ro
