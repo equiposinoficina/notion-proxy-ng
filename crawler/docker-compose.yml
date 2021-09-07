@@ -19,4 +19,3 @@ services:
       - "youtube.com:10.2.0.1"
       - "www.youtube.com:10.2.0.1"
       - "industry40.systems:10.2.0.1"
-    

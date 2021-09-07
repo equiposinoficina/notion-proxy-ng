@@ -9,11 +9,11 @@ const hideToggle = (content, arrow) => {
   content.style.display = "none";
 };
 
-const toggleButtons = document.getElementsByClassName("loconotion-toggle-button");
+const toggleButtons = document.getElementsByClassName("notionproxyng-toggle-button");
 for (let i = 0; i < toggleButtons.length; i++) {
   const toggleButton = toggleButtons.item(i);
-  const toggleId = toggleButton.getAttribute("loconotion-toggle-id");
-  const toggleContent = document.querySelector(`.loconotion-toggle-content[loconotion-toggle-id='${toggleId}']`);
+  const toggleId = toggleButton.getAttribute("notionproxyng-toggle-id");
+  const toggleContent = document.querySelector(`.notionproxyng-toggle-content[notionproxyng-toggle-id='${toggleId}']`);
   const toggleArrow = toggleButton.querySelector("svg");
   if (toggleButton && toggleContent) {
     hideToggle(toggleContent, toggleArrow);
@@ -34,10 +34,10 @@ for (let i = 0; i < pendingIframes.length; i++) {
   pendingIframes.item(i).parentElement.style.opacity = 1;
 }
 
-// const pendingIframes = document.getElementsByClassName("loconotion-iframe-target");
+// const pendingIframes = document.getElementsByClassName("notionproxyng-iframe-target");
 // for (let i = 0; i < pendingIframes.length; i++) {
 //   const pendingIframe = pendingIframes.item(i);
-//   const iframeSrc = pendingIframe.getAttribute("loconotion-iframe-src");
+//   const iframeSrc = pendingIframe.getAttribute("notionproxyng-iframe-src");
 //   const iframe = document.createElement("iframe");
 
 //   pendingIframe.style.opacity = 0;
@@ -71,7 +71,7 @@ for (let i = 0; i < collectionSearchBoxes.length; i++) {
 }
 
 // re-implement anchor links
-const anchorLinks = document.querySelectorAll("a.loconotion-anchor-link");
+const anchorLinks = document.querySelectorAll("a.notionproxyng-anchor-link");
 for (let i = 0; i < anchorLinks.length; i++) {
   const anchorLink = anchorLinks.item(i);
   const id = anchorLink.getAttribute("href").replace("#", "");

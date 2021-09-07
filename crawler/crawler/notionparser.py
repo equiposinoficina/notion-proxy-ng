@@ -11,7 +11,45 @@ import urllib.parse
 import hashlib
 from pathlib import Path
 
-log = logging.getLogger(f"loconotion.{__name__}")
+log = logging.getLogger(f"notionproxyng.{__name__}")
+log.setLevel(logging.DEBUG)
+log_screen_handler = logging.StreamHandler(stream=sys.stdout)
+log.addHandler(log_screen_handler)
+log.propagate = False
+try:
+    import colorama, copy
+
+    LOG_COLORS = {
+        logging.DEBUG: colorama.Fore.GREEN,
+        logging.INFO: colorama.Fore.BLUE,
+        logging.WARNING: colorama.Fore.YELLOW,
+        logging.ERROR: colorama.Fore.RED,
+        logging.CRITICAL: colorama.Back.RED,
+    }
+
+    class ColorFormatter(logging.Formatter):
+        def format(self, record, *args, **kwargs):
+            # if the corresponding logger has children, they may receive modified
+            # record, so we want to keep it intact
+            new_record = copy.copy(record)
+            if new_record.levelno in LOG_COLORS:
+                new_record.levelname = "{color_begin}{level}{color_end}".format(
+                    level=new_record.levelname,
+                    color_begin=LOG_COLORS[new_record.levelno],
+                    color_end=colorama.Style.RESET_ALL,
+                )
+            return super(ColorFormatter, self).format(new_record, *args, **kwargs)
+
+    log_screen_handler.setFormatter(
+        ColorFormatter(
+            fmt="%(asctime)s %(levelname)-8s %(message)s",
+            datefmt="{color_begin}[%H:%M:%S]{color_end}".format(
+                color_begin=colorama.Style.DIM, color_end=colorama.Style.RESET_ALL
+            ),
+        )
+    )
+except ModuleNotFoundError as identifier:
+    pass
 
 try:
     import chromedriver_autoinstaller
@@ -22,6 +60,7 @@ try:
     from selenium.webdriver.common.by import By
     from selenium.webdriver.common.action_chains import ActionChains
     from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.common.exceptions import WebDriverException
     from bs4 import BeautifulSoup
     import requests
     import cssutils
@@ -36,6 +75,7 @@ from conditions import toggle_block_has_opened, notion_page_loaded
 
 class Parser:
     def __init__(self, config={}, args={}):
+        self.parsed_pages = {}
         self.config = config
         self.args = args
         url = self.config.get("page", None)
@@ -83,7 +123,11 @@ class Parser:
 
         # initialize chromedriver and start parsing
         self.driver = self.init_chromedriver()
-        self.run(url)
+        try:
+          self.run(url)
+        except KeyboardInterrupt:
+          self.driver.quit()
+          raise KeyboardInterrupt()
 
     def get_page_config(self, token):
         # starts by grabbing the gobal site configuration table, if exists
@@ -209,26 +253,32 @@ class Parser:
                     " --chromedriver argument to point to the chromedriver executable"
                 )
                 sys.exit()
-
         log.info(f"Initialising chromedriver at {chromedriver_path}")
         logs_path = Path.cwd() / ".logs" / "webdrive.log"
         logs_path.parent.mkdir(parents=True, exist_ok=True)
 
         chrome_options = Options()
-        if not self.args.get("non_headless", False):
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("window-size=1920,1080")
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--disable-dev-shm-usage')
+        #if not self.args.get("non_headless", False):
+        #chrome_options.add_argument("--headless")
+        #chrome_options.add_argument("window-size=1920,1080")
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_argument("--log-level=3")
-        chrome_options.add_argument("--silent")
-        chrome_options.add_argument("--disable-logging")
+        chrome_options.add_argument("-sessionTimeout=60")
+        #chrome_options.add_argument("--silent")
+        #chrome_options.add_argument("--disable-logging")
         #  removes the 'DevTools listening' log message
         chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        """
         return webdriver.Chrome(
             executable_path=str(chromedriver_path),
             service_log_path=str(logs_path),
             options=chrome_options,
+        )
+        """
+        return webdriver.Remote(
+          command_executor='http://172.20.225.24:4444',
+          options=chrome_options
         )
 
     def parse_page(self, url, processed_pages={}, index=None):
@@ -250,7 +300,10 @@ class Parser:
                 "Timeout waiting for page content to load, or no content found."
                 " Are you sure the page is set to public?"
             )
-            return
+            return []
+        except WebDriverException as ex:
+            log.error(f"Webdriver Exception: {ex}")
+            return []
 
         # light theme is on by default
         # enable dark mode based on https://fruitionsite.com/ dark mode hack
@@ -262,9 +315,14 @@ class Parser:
         # don't do this if the page has a calendar databse on it or it will load forever
         calendar = self.driver.find_elements_by_class_name("notion-calendar-view")
         if not calendar:
-            scroller = self.driver.find_element_by_css_selector(
+            try:
+              scroller = self.driver.find_element_by_css_selector(
                 ".notion-frame > .notion-scroller"
-            )
+              )
+            except NoSuchElementException as e:
+              log.error(e)
+              return []
+            log.debug(f'scroller: {scroller}')
             last_height = scroller.get_attribute("scrollHeight")
             log.debug(f"Scrolling to bottom of notion-scroller (height: {last_height})")
             while True:
@@ -387,15 +445,17 @@ class Parser:
                     if img["src"].startswith("/"):
                         img_src = "https://www.notion.so" + img["src"]
                         # notion's own default images urls are in a weird format, need to sanitize them
-                        # img_src = 'https://www.notion.so' + img['src'].split("notion.so")[-1].replace("notion.so", "").split("?")[0]
-                        # if (not '.amazonaws' in img_src):
-                        # img_src = urllib.parse.unquote(img_src)
-
-                    cached_image = self.cache_file(img_src)
-                    img["src"] = cached_image
+                        img_src = 'https://www.notion.so' + img['src'].split("notion.so")[-1].replace("notion.so", "").split("?")[0]
+                        if (not '.amazonaws' in img_src):
+                          img_src = urllib.parse.unquote(img_src)
+                    if img_src:
+                      log.debug(f'Downloading Image: {img_src} linked by: {img["src"]}')
+                      cached_image = self.cache_file(img_src)
+                      img["src"] = cached_image
                 else:
                     if img["src"].startswith("/"):
                         img["src"] = "https://www.notion.so" + img["src"]
+
 
             # on emoji images, cache their sprite sheet and re-set their background url
             if img.has_attr("class") and "notion-emoji" in img["class"]:
@@ -404,6 +464,9 @@ class Parser:
                 spritesheet_url = spritesheet[
                                   spritesheet.find("(") + 1: spritesheet.find(")")
                                   ]
+                log.debug(f'Image to download: {spritesheet_url}')
+                if spritesheet_url.endswith('.png') and not spritesheet_url.startswith('/'):
+                    spritesheet_url = '/' + spritesheet_url
                 cached_spritesheet_url = self.cache_file(
                     "https://www.notion.so" + spritesheet_url
                 )
@@ -455,13 +518,13 @@ class Parser:
                 # plus a custom attribute sharing a unique uiid so
                 # we can hook them up with some custom js logic later
                 toggle_button["class"] = toggle_block.get("class", []) + [
-                    "loconotion-toggle-button"
+                    "notionproxyng-toggle-button"
                 ]
                 toggle_content["class"] = toggle_content.get("class", []) + [
-                    "loconotion-toggle-content"
+                    "notionproxyng-toggle-content"
                 ]
-                toggle_content.attrs["loconotion-toggle-id"] = toggle_button.attrs[
-                    "loconotion-toggle-id"
+                toggle_content.attrs["notionproxyng-toggle-id"] = toggle_button.attrs[
+                    "notionproxyng-toggle-id"
                 ] = toggle_id
 
         # if there are any table views in the page, add links to the title rows
@@ -577,7 +640,7 @@ class Parser:
                         sub_page_href_tokens = sub_page_href.split("#")
                         sub_page_href = sub_page_href_tokens[0]
                         a["href"] = "#" + sub_page_href_tokens[-1]
-                        a["class"] = a.get("class", []) + ["loconotion-anchor-link"]
+                        a["class"] = a.get("class", []) + ["notionproxyng-anchor-link"]
                         if (
                                 sub_page_href in processed_pages.keys()
                                 or sub_page_href in sub_pages
@@ -640,12 +703,24 @@ class Parser:
         return processed_pages
 
     def load(self, url):
+        # already parsed?
+        #page_id = self.get_page_id(url, extension=False)
+        #if page_id in self.parsed_pages:
+        #  url = f"file:///static_files/{page_id}.html"
+        #  log.info(f'Loaded from disk: {page_id}.html')
+        # get the content
         self.driver.get(url)
+        #self.parsed_pages[page_id] = time.time()
         WebDriverWait(self.driver, 60).until(notion_page_loaded())
+
 
     def run(self, url):
         start_time = time.time()
         tot_processed_pages = self.parse_page(url)
+        try:
+          self.driver.quit()
+        except:
+          pass
         elapsed_time = time.time() - start_time
         formatted_time = "{:02d}:{:02d}:{:02d}".format(
             int(elapsed_time // 3600),
