@@ -9,13 +9,15 @@ div[role="button"]:not(.notion-record-icon):hover {
 }
 
 /* hides elements on the top right (search box, duplicate, notion shortcut) */
-.notion-topbar > div > div:not(:first-child) {
+/* .notion-topbar > div > div:not(:first-child) { */
+.notion-topbar {
   display: none !important;
 }
 
 /* stops inline databases from overflowing horizontally */
 .notion-frame {
   max-width: 100%;
+  width: 100% !important;
 }
 .notion-scroller .notion-collection_view-block {
   width: 100% !important;
@@ -131,4 +133,8 @@ a[data-token-index] svg.page {
   .notion-list-view > .notion-collection_view_page-block {
     width: fit-content;
   }
+}
+
+.notion-selectable {
+  max-width: 99% !important;
 }

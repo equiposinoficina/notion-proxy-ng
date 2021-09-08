@@ -445,9 +445,9 @@ class Parser:
                     if img["src"].startswith("/"):
                         img_src = "https://www.notion.so" + img["src"]
                         # notion's own default images urls are in a weird format, need to sanitize them
-                        img_src = 'https://www.notion.so' + img['src'].split("notion.so")[-1].replace("notion.so", "").split("?")[0]
-                        if (not '.amazonaws' in img_src):
-                          img_src = urllib.parse.unquote(img_src)
+                        #img_src = 'https://www.notion.so' + img['src'].split("notion.so")[-1].replace("notion.so", "").split("?")[0]
+                        #if (not '.amazonaws' in img_src):
+                        #  img_src = urllib.parse.unquote(img_src)
                     if img_src:
                       log.debug(f'Downloading Image: {img_src} linked by: {img["src"]}')
                       cached_image = self.cache_file(img_src)
@@ -682,10 +682,16 @@ class Parser:
                 " overwritten. Make sure that your notion pages names or custom slugs"
                 " in the configuration files are unique"
             )
-        log.info(f"Exporting page '{url}' as '{html_file}'")
-        with open(self.dist_folder / html_file, "wb") as f:
-            f.write(html_str.encode("utf-8").strip())
-        processed_pages[url] = html_file
+        else:
+          log.info(f"Exporting page '{url}' as '{html_file}'")
+
+          with open(self.dist_folder / html_file, "wb") as f:
+              f.write(html_str.encode("utf-8").strip())
+          if url == index:
+            html_file = self.get_page_id(url)
+            with open(self.dist_folder / html_file, "wb") as f:
+                f.write(html_str.encode("utf-8").strip())
+          processed_pages[url] = html_file
 
         
         # parse sub-pages
@@ -704,13 +710,13 @@ class Parser:
 
     def load(self, url):
         # already parsed?
-        #page_id = self.get_page_id(url, extension=False)
-        #if page_id in self.parsed_pages:
-        #  url = f"file:///static_files/{page_id}.html"
-        #  log.info(f'Loaded from disk: {page_id}.html')
+        page_id = self.get_page_id(url, extension=False)
+        if page_id in self.parsed_pages:
+          url = f"file:///static_files/{page_id}.html"
+          log.info(f'Loaded from disk: {page_id}.html')
         # get the content
         self.driver.get(url)
-        #self.parsed_pages[page_id] = time.time()
+        self.parsed_pages[page_id] = time.time()
         WebDriverWait(self.driver, 60).until(notion_page_loaded())
 
 

@@ -86,3 +86,8 @@ for (let i = 0; i < anchorLinks.length; i++) {
     });
   });
 }
+
+// remove target=_blank
+Array.from(document.querySelectorAll('a[target="_blank"]'))
+  .forEach(link => link.removeAttribute('target'));
+

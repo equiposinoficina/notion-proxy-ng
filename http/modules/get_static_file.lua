@@ -4,6 +4,25 @@ local cache_file = '/notion-proxy-ng/cache/slugs.json'
 local to_slugs = ngx.shared.to_slugs
 local to_page = ngx.shared.to_page
 
+function mysplit (inputstr, sep)
+  if sep == nil then
+          sep = "%s"
+  end
+  local t={}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+          table.insert(t, str)
+  end
+  return t
+end
+
+function getEntryFromEnd(table, entry)
+  local count = (table and #table or false)
+  if (count) then
+      return table[count-entry];
+  end
+  return false;
+end
+
 local path_n_file = 'index.html'
 if ( ngx.var.path_n_file ~= '' and ngx.var.path_n_file ~= '/') then
   path_n_file = ngx.var.path_n_file
@@ -24,6 +43,10 @@ end
 if ( to_page:get(cb) ~= nil ) then
   path_n_file = to_page:get(cb) .. '.html'
 end
+
+table_path_n_file = mysplit(path_n_file, '/')
+path_n_file = table_path_n_file[#table_path_n_file]
+
 
 -- ngx.log(ngx.ERR, "this is a test")
 -- return file content
