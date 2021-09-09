@@ -562,7 +562,7 @@ class Parser:
             for font in unique_custom_fonts:
                 if font:
                     google_fonts_embed_name = font.replace(" ", "+")
-                    font_href = f"https://fonts.googleapis.com/css2?family={google_fonts_embed_name}:wght@500;600;700&display=swap"
+                    font_href = f"https://fonts.googleapis.com/css?family={google_fonts_embed_name}:wght@500;600;700&display=swap"
                     custom_font_stylesheet = soup.new_tag(
                         "link", rel="stylesheet", href=font_href
                     )
