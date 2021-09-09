@@ -7,7 +7,7 @@ services:
     environment:
       - TZ="Europe/Madrid"
     ports:
-      - 80:80
+      - 3333:80
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./http/var:/var/run/openresty
