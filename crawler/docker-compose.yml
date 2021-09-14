@@ -6,7 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile
     image: notion-proxy-ng-crawler:latest
-    restart: always
+    restart: on-failure
+    depends_on:
+      - selenium-chrome
     environment:
       - TZ="Europe/Madrid"
     volumes:
@@ -14,8 +16,21 @@ services:
       - ./config:/app/crawler/config
       - ../site:/app/crawler/site
       - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     extra_hosts:
-      - "youtu.be:10.2.0.1"
-      - "youtube.com:10.2.0.1"
-      - "www.youtube.com:10.2.0.1"
-      - "industry40.systems:10.2.0.1"
+      - "youtu.be:127.0.0.1"
+      - "youtube.com:127.0.0.1"
+      - "www.youtube.com:127.0.0.1"
+      - "industry40.systems:127.0.0.1"
+  selenium-chrome:
+    image: 'selenium/standalone-chrome:4.0.0-rc-1-prerelease-20210823'
+    shm_size: 2gb
+    volumes:
+      - '../site/static_files:/static_files:ro'
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '4444:4444'
+      - '7900:7900'
+    environment:
+      - TZ="Europe/Madrid"
+    

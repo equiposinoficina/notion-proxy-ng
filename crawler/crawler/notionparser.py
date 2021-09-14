@@ -52,7 +52,6 @@ except ModuleNotFoundError as identifier:
     pass
 
 try:
-    import chromedriver_autoinstaller
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     from selenium.common.exceptions import TimeoutException, NoSuchElementException
@@ -241,43 +240,17 @@ class Parser:
             return cached_file
 
     def init_chromedriver(self):
-        chromedriver_path = self.args.get("chromedriver")
-        if not chromedriver_path:
-            try:
-                chromedriver_path = chromedriver_autoinstaller.install()
-            except Exception as exception:
-                log.critical(
-                    f"Failed to install the built-in chromedriver: {exception}\n"
-                    "\nDownload the correct version for your system at"
-                    " https://chromedriver.chromium.org/downloads and use the"
-                    " --chromedriver argument to point to the chromedriver executable"
-                )
-                sys.exit()
-        log.info(f"Initialising chromedriver at {chromedriver_path}")
         logs_path = Path.cwd() / ".logs" / "webdrive.log"
         logs_path.parent.mkdir(parents=True, exist_ok=True)
 
         chrome_options = Options()
-        #if not self.args.get("non_headless", False):
-        #chrome_options.add_argument("--headless")
-        #chrome_options.add_argument("window-size=1920,1080")
-        #chrome_options.add_argument('--no-sandbox')
-        #chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("window-size=1920,1080")
         chrome_options.add_argument("--log-level=3")
         chrome_options.add_argument("-sessionTimeout=60")
-        #chrome_options.add_argument("--silent")
-        #chrome_options.add_argument("--disable-logging")
-        #  removes the 'DevTools listening' log message
         chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        """
-        return webdriver.Chrome(
-            executable_path=str(chromedriver_path),
-            service_log_path=str(logs_path),
-            options=chrome_options,
-        )
-        """
+
         return webdriver.Remote(
-          command_executor='http://172.20.225.24:4444',
+          command_executor='http://selenium-chrome:4444',
           options=chrome_options
         )
 

@@ -1,19 +1,26 @@
-FROM python:3.8
+FROM python:3.8.12-bullseye
 # ChromeDriver installation from https://gist.github.com/varyonic/dea40abcf3dd891d204ef235c6e8dd79
 # We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
 RUN apt-get update
 RUN apt-get install -y libgconf-2-4 wget xvfb unzip
-# Set up the Chrome PPA
-#RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-#RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
-# Update the package list and install chrome
 RUN apt-get update -y
-#RUN apt-get install -y google-chrome-stable
 
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
+# installing docker
+RUN apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+RUN echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+RUN apt-get update
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+
 # Set up Chromedriver Environment variables
-ENV CHROMEDRIVER_VERSION 91.0.4472.101
+ENV CHROMEDRIVER_VERSION 92.0.4515.107
 ENV CHROMEDRIVER_DIR /chromedriver
 RUN mkdir $CHROMEDRIVER_DIR
 # Download and install Chromedriver
@@ -28,4 +35,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 #COPY . .
-ENTRYPOINT [ "python", "crawler", "--chromedriver", "/chromedriver/chromedriver"]
+ENTRYPOINT [ "python", "crawler"]

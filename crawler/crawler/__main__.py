@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 import logging
 import urllib.parse
 import argparse
@@ -27,10 +28,6 @@ def main():
         help="The config file containing the site properties, or the url"
         " of the Notion.so page to generate the site from",
         default="/app/crawler/config/site.toml"
-    )
-    argparser.add_argument(
-        "--chromedriver",
-        help="Use a specific chromedriver executable instead of the auto-installing one",
     )
     argparser.add_argument(
         "--single-page", action="store_true", help="Only parse the first page, then stop"
@@ -150,6 +147,7 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+        result = subprocess.run(["docker", "stop", "crawler_standalone-chrome_1"])
     except KeyboardInterrupt:
         log.critical("Interrupted by user")
         try:
