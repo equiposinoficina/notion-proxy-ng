@@ -3,5 +3,5 @@
   "DATABASE_IDS": {
     "DATABASE_NAME":"DATABASE_ID",
   },
-  "SLUGS_JSON": "../cache/slugs.json"
+  "SLUGS_JSON": "/notion-proxy/cache/slugs.json"
 }

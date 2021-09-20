@@ -1,7 +1,13 @@
 https://pandao.github.io/editor.md/en.html
 
 # notion-proxy-ng
-Turn your [Notion](https://notion.so "Notion") pages into a Website with your URLs and customizations. Faster than the previos version of [notion-proxy](https://github.com/equiposinoficina/notion-proxy "notion-proxy").
+Turn your [Notion](https://notion.so "Notion") pages into a Website with your URLs and customizations. Faster than the previos version of [notion-proxy](https://github.com/equiposinoficina/notion-proxy "notion-proxy") because now Notion pages are parsed as static content.
+
+Some other features avilable in the project are:
+
+* inject JavaScript code
+* inject CSS code
+* robots file supported
 
 # Background
 We have a project called [Industry 4.0 systems](https://industry40.systems "Industry 4.0 systems") where we publish technical information about Industry 4.0. It's really confortable write this information on [Notion](https://notion.so "Notion") and maintain our internal projects from there. We want to take in advantage our internal documentation system for publishing a web site with useful and public information.
@@ -84,7 +90,6 @@ Run this container means download and parse Notion pages and convert them to sta
 
 Go to the **crawler/** directory and run:
 
-		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 		sudo docker-compose up && sudo docker-compose down
 
 This is going to launch two containers:
@@ -121,7 +126,13 @@ If Selenium Grid Server has a stacked session next command can be useful:
 
 ### Building the container:
 
+Just point the prompt to the directory **get_slugs/** and execute:
 
+		docker-compose build
+
+Then change owner of **cache/** directory:
+
+		chown 1000:1000 cache
 
 ### Running the continaer:
 
@@ -137,17 +148,35 @@ Start configuring the configuration file at **get_slugs/config/default.json**. Y
 
 If you don't have Notion API key follow the instructions at: https://developers.notion.com/docs/getting-started
 
-When it's configured, it's time to run the process manually, go to **get_slugs/** directory and run:
+When it's configured, it's time to run the process manually, go to **get_slugs/** directory and execute:
 
-		docker-comp
+		./run.sh
 
+If everything works OK exit code will be 0 and cache file will have a JSON file, check file timestamp for ensuring it is created just when the script finishes the execution.
 
 ## OpenResty (Nginx)
 
+Nginx configuration file is located at **http/config/main.conf**, usually it's not necessary to change anything.
 
-https://pandao.github.io/editor.md/en.html
+By default port used is **:3333**, you can change it just modifying **docker-compose.yml**.
 
-authors = ["Leonardo Cavaletti <impeto.blu@gmail.com>"]
+Finally just run:
+
+		docker-compose up -d
+
+# Thanks
+
+* Crawler code is based on [loconotion](https://github.com/leoncvlt/loconotion "loconotion") created by Leonardo Cavaletti <impeto.blu@gmail.com>, thanks for your great work Leonardo.
+* Another inspiring author is Aitor Roma who created https://github.com/aitorroma/aitorroma.com
+* And inite thanks to all authors of the Open Sources project that we integrated and supported our code.
 
 
+# License
+[GNU General Public License v3.0](https://github.com/equiposinoficina/notion-proxy/blob/main/LICENSE)
 
+# Authors
+https://equiposinoficina.com
+
+Dani Aguayo - http://danielaguayo.com
+
+Oriol Rius - https://oriolrius.me
