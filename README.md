@@ -1,5 +1,3 @@
-https://pandao.github.io/editor.md/en.html
-
 # notion-proxy-ng
 Turn your [Notion](https://notion.so "Notion") pages into a Website with your URLs and customizations. Faster than the previos version of [notion-proxy](https://github.com/equiposinoficina/notion-proxy "notion-proxy") because now Notion pages are parsed as static content.
 
@@ -168,6 +166,7 @@ Finally just run:
 
 * Crawler code is based on [loconotion](https://github.com/leoncvlt/loconotion "loconotion") created by Leonardo Cavaletti <impeto.blu@gmail.com>, thanks for your great work Leonardo.
 * Another inspiring author is Aitor Roma who created https://github.com/aitorroma/aitorroma.com
+* Thanks to https://pandao.github.io/editor.md/en.html for helping us with the markdown language.
 * And inite thanks to all authors of the Open Sources project that we integrated and supported our code.
 
 
