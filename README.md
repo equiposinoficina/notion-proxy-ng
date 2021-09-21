@@ -18,7 +18,11 @@ Project has three parts,
 - **get_slugs**, which will create a map for static HTML pages and pretty URLs.
 - **OpenResty**, it works as an HTTP server and an application server which is going to serve the site assets.
 
-[![notion-proxy-ng-notion-proxy-ng.drawio.png](https://raw.githubusercontent.com/equiposinoficina/notion-proxy-ng/main/doc/notion-proxy-ng-notion-proxy-ng.drawio.png)](https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB)
+<figure>
+<img src="https://raw.githubusercontent.com/equiposinoficina/notion-proxy-ng/main/doc/notion-proxy-ng-notion-proxy-ng.drawio.png" style="width:100%">
+<figcaption align = "center"><b><a href="https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB">https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB</a></b></figcaption>
+</figure>
+
 
 # Set up process
 
@@ -92,7 +96,10 @@ Go to the **crawler/** directory and run:
 
 This is going to launch two containers:
 
-[![notion-proxy-ng-crawler.drawio.png](https://raw.githubusercontent.com/equiposinoficina/notion-proxy-ng/main/doc/notion-proxy-ng-crawler.drawio.png)](https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB)
+<figure>
+<img src="https://raw.githubusercontent.com/equiposinoficina/notion-proxy-ng/main/doc/notion-proxy-ng-crawler.drawio.png" style="width:100%">
+<figcaption align = "center"><b><a href="https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB">https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB</a></b></figcaption>
+</figure>
 
 Crawler uses Selenium Grid Server standalone as a virtual browser for retrieving Notion pages.
 
@@ -165,6 +172,7 @@ Finally just run:
 # Thanks
 
 * Crawler code is based on [loconotion](https://github.com/leoncvlt/loconotion "loconotion") created by Leonardo Cavaletti <impeto.blu@gmail.com>, thanks for your great work Leonardo.
+* loconotion uses chromedriver integrated on its container but it didn't work as good as we expecte and we decided to use a project called [Selenium Grid Server](https://github.com/SeleniumHQ/docker-selenium), so thanks a lot for so great job guys.
 * Another inspiring author is Aitor Roma who created https://github.com/aitorroma/aitorroma.com
 * Thanks to https://pandao.github.io/editor.md/en.html for helping us with the markdown language.
 * And inite thanks to all authors of the Open Sources project that we integrated and supported our code.
