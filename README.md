@@ -113,13 +113,13 @@ downloading docker-compose
 
 1. (Optional) For speeding up parsing process, we use an small trick, the idea is set up to localhost the URL hostnames of the iframes which are repeated often in our Notion web pages. If you want to take advantage of that trick, just edit the file **crawler/docker-compose.yml**. Adding to the "extra_hosts" list your hostnames, in our case the list is:
 
-	...
-	    extra_hosts:
-		  - "youtu.be:127.0.0.1"
-		  - "youtube.com:127.0.0.1"
-		  - "www.youtube.com:127.0.0.1"
-		  - "industry40.systems:127.0.0.1"
-	...
+		...
+		    extra_hosts:
+			  - "youtu.be:127.0.0.1"
+			  - "youtube.com:127.0.0.1"
+			  - "www.youtube.com:127.0.0.1"
+			  - "industry40.systems:127.0.0.1"
+		...
 
 1. Go to the **crawler/** directory and build the crawler container:
 
