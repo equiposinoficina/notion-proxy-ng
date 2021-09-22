@@ -79,37 +79,37 @@ downloading docker-compose
 
 1. Edit **crawler/config/site.toml** with your parameters, file is auto descriptive:
 
-	name = "Industry 4.0 Systems"
-	page = "https://i40sys.notion.site/Industry-4-0-Systems-89f2d3ee8c1249b38840f65d9b1ad392"
-	[site]
-	  [[site.meta]]
-	  name = "Industry 4.0 Systems"
-	  content = "Crea tu propio gateway de IoT"
-	  [[site.meta]]
-	  name = "description"
-	  content = ""
-	
-	  [site.fonts]
-	  site = 'Offside'
-	  navbar = 'Offside'
-	  title = 'Offside'
-	  h1 = 'Offside'
-	  h2 = 'Offside'
-	  h3 = 'Offside'
-	  body = 'Offside'
-	  code = 'Offside'
-	
-	  [[site.inject.head.link]]
-	  rel="icon" 
-	  sizes="16x16"
-	  type="image/png"
-	  href="favicon-16x16.png"
-	
-	  [[site.inject.body.script]]
-	  type="text/javascript"
-	  src="notion-proxy.js"
-	
-	[pages]
+		name = "Industry 4.0 Systems"
+		page = "https://i40sys.notion.site/Industry-4-0-Systems-89f2d3ee8c1249b38840f65d9b1ad392"
+		[site]
+			[[site.meta]]
+			name = "Industry 4.0 Systems"
+			content = "Crea tu propio gateway de IoT"
+			[[site.meta]]
+			name = "description"
+			content = ""
+		
+			[site.fonts]
+			site = 'Offside'
+			navbar = 'Offside'
+			title = 'Offside'
+			h1 = 'Offside'
+			h2 = 'Offside'
+			h3 = 'Offside'
+			body = 'Offside'
+			code = 'Offside'
+		
+			[[site.inject.head.link]]
+			rel="icon" 
+			sizes="16x16"
+			type="image/png"
+			href="favicon-16x16.png"
+		
+			[[site.inject.body.script]]
+			type="text/javascript"
+			src="notion-proxy.js"
+		
+		[pages]
 
 1. (Optional) For speeding up parsing process, we use an small trick, the idea is set up to localhost the URL hostnames of the iframes which are repeated often in our Notion web pages. If you want to take advantage of that trick, just edit the file **crawler/docker-compose.yml**. Adding to the "extra_hosts" list your hostnames, in our case the list is:
 
@@ -123,15 +123,15 @@ downloading docker-compose
 
 1. Go to the **crawler/** directory and build the crawler container:
 
-	docker-compose build
+		docker-compose build
 
 1. Check that everything is OK with this command:
 
-	sudo docker image ls| grep crawler
+		sudo docker image ls| grep crawler
 
 	output has to be like that:
 
-	notion-proxy-ng-crawler       latest                           8f7e74d94547   3 days ago      1.58GB
+		notion-proxy-ng-crawler       latest                           8f7e74d94547   3 days ago      1.58GB
 
 ### Running the crawler container:
 
