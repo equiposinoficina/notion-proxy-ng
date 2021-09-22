@@ -61,7 +61,7 @@ adding gpg key for docker package repository
 
 updating repository package list
 
-apt update
+	apt update
 
 installing docker package
 
