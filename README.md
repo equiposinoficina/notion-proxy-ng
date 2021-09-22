@@ -37,8 +37,8 @@ From here, we assume work directory is at **notion-proxy-ng/**.
 
 ## Requirements
 
-* Docker is required: https://docs.docker.com/engine/install/
-* Docker compose: https://docs.docker.com/compose/install/
+* **Docker**: https://docs.docker.com/engine/install/
+* **Docker compose**: https://docs.docker.com/compose/install/
 
 ### Ubuntu instructions
 
