@@ -23,8 +23,17 @@ Project has three parts,
 <figcaption align = "center"><b><a href="https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB">https://app.diagrams.net/#G1poxc7WI7zmN_D6uVRXUaHbptkmJXtuEB</a></b></figcaption>
 </figure>
 
+# Hardware requirements
+
+* Crawler module requires 2GB of RAM
 
 # Set up process
+
+## Clonging repository
+
+		git clone git@github.com:equiposinoficina/notion-proxy-ng.git
+
+From here, we assume work directory is at **notion-proxy-ng/**.
 
 ## Requirements
 
@@ -33,19 +42,25 @@ Project has three parts,
 
 ### Ubuntu instructions
 
-		#docker
+		# installing docker dependencies
 		apt-get install \
 		    apt-transport-https \
 		    ca-certificates \
 		    curl \
 		    gnupg \
 		    lsb-release
+		# adding docker package repository
 		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		# adding gpg key for docker package repository
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    # updating repository package list
 		apt update
+    # installing docker package
 		apt-get install docker-ce docker-ce-cli containerd.io
 		
-		# docker compose
+		# downloading docker-compose
 		sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    # giving execution permissions to docker-compose
 		chmod +x /usr/local/bin/docker-compose
 
 ## Crawler
@@ -167,7 +182,7 @@ First of all, remember that slugs are optional and only used for prettifying URL
 
 Slugs is a process which uses Notion API for creating a local cache of page ids mapping slug URIs. The cache file will be located at **cache/slugs.json**.
 
-We organize our pages in tables, take a look at for an example:
+We organize our pages in tables, take a look at this, for an example:
 
 		https://notion.so/423b6065220d4879be893a604602f3fb
 
