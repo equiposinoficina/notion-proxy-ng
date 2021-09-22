@@ -42,23 +42,33 @@ From here, we assume work directory is at **notion-proxy-ng/**.
 
 ### Ubuntu instructions
 
-	# installing docker dependencies
+installing docker dependencies
+
 	apt-get install \
 	    apt-transport-https \
 	    ca-certificates \
 	    curl \
 	    gnupg \
 	    lsb-release
-	# adding docker package repository
+
+adding docker package repository
+
 	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-	# adding gpg key for docker package repository
+
+adding gpg key for docker package repository
+
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-	# updating repository package list
-	apt update
-	# installing docker package
+
+updating repository package list
+
+apt update
+
+installing docker package
+
 	apt-get install docker-ce docker-ce-cli containerd.io
-	
-	# downloading docker-compose
+
+downloading docker-compose
+
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	# giving execution permissions to docker-compose
 	chmod +x /usr/local/bin/docker-compose
