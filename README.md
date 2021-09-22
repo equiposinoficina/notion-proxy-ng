@@ -42,26 +42,26 @@ From here, we assume work directory is at **notion-proxy-ng/**.
 
 ### Ubuntu instructions
 
-		# installing docker dependencies
-		apt-get install \
-		    apt-transport-https \
-		    ca-certificates \
-		    curl \
-		    gnupg \
-		    lsb-release
-		# adding docker package repository
-		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-		# adding gpg key for docker package repository
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    # updating repository package list
-		apt update
-    # installing docker package
-		apt-get install docker-ce docker-ce-cli containerd.io
-		
-		# downloading docker-compose
-		sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    # giving execution permissions to docker-compose
-		chmod +x /usr/local/bin/docker-compose
+	# installing docker dependencies
+	apt-get install \
+	    apt-transport-https \
+	    ca-certificates \
+	    curl \
+	    gnupg \
+	    lsb-release
+	# adding docker package repository
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	# adding gpg key for docker package repository
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	# updating repository package list
+	apt update
+	# installing docker package
+	apt-get install docker-ce docker-ce-cli containerd.io
+	
+	# downloading docker-compose
+	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	# giving execution permissions to docker-compose
+	chmod +x /usr/local/bin/docker-compose
 
 ## Crawler
 
@@ -69,59 +69,59 @@ From here, we assume work directory is at **notion-proxy-ng/**.
 
 1. Edit **crawler/config/site.toml** with your parameters, file is auto descriptive:
 
-		name = "Industry 4.0 Systems"
-		page = "https://i40sys.notion.site/Industry-4-0-Systems-89f2d3ee8c1249b38840f65d9b1ad392"
-		[site]
-		  [[site.meta]]
-		  name = "Industry 4.0 Systems"
-		  content = "Crea tu propio gateway de IoT"
-		  [[site.meta]]
-		  name = "description"
-		  content = ""
-
-		  [site.fonts]
-		  site = 'Offside'
-		  navbar = 'Offside'
-		  title = 'Offside'
-		  h1 = 'Offside'
-		  h2 = 'Offside'
-		  h3 = 'Offside'
-		  body = 'Offside'
-		  code = 'Offside'
-
-		  [[site.inject.head.link]]
-		  rel="icon" 
-		  sizes="16x16"
-		  type="image/png"
-		  href="favicon-16x16.png"
-
-		  [[site.inject.body.script]]
-		  type="text/javascript"
-		  src="notion-proxy.js"
-
-		[pages]
+	name = "Industry 4.0 Systems"
+	page = "https://i40sys.notion.site/Industry-4-0-Systems-89f2d3ee8c1249b38840f65d9b1ad392"
+	[site]
+	  [[site.meta]]
+	  name = "Industry 4.0 Systems"
+	  content = "Crea tu propio gateway de IoT"
+	  [[site.meta]]
+	  name = "description"
+	  content = ""
+	
+	  [site.fonts]
+	  site = 'Offside'
+	  navbar = 'Offside'
+	  title = 'Offside'
+	  h1 = 'Offside'
+	  h2 = 'Offside'
+	  h3 = 'Offside'
+	  body = 'Offside'
+	  code = 'Offside'
+	
+	  [[site.inject.head.link]]
+	  rel="icon" 
+	  sizes="16x16"
+	  type="image/png"
+	  href="favicon-16x16.png"
+	
+	  [[site.inject.body.script]]
+	  type="text/javascript"
+	  src="notion-proxy.js"
+	
+	[pages]
 
 1. (Optional) For speeding up parsing process, we use an small trick, the idea is set up to localhost the URL hostnames of the iframes which are repeated often in our Notion web pages. If you want to take advantage of that trick, just edit the file **crawler/docker-compose.yml**. Adding to the "extra_hosts" list your hostnames, in our case the list is:
 
-		...
-		    extra_hosts:
-			  - "youtu.be:127.0.0.1"
-			  - "youtube.com:127.0.0.1"
-			  - "www.youtube.com:127.0.0.1"
-			  - "industry40.systems:127.0.0.1"
-	  	...
+	...
+	    extra_hosts:
+		  - "youtu.be:127.0.0.1"
+		  - "youtube.com:127.0.0.1"
+		  - "www.youtube.com:127.0.0.1"
+		  - "industry40.systems:127.0.0.1"
+	...
 
 1. Go to the **crawler/** directory and build the crawler container:
 
-		docker-compose build
+	docker-compose build
 
 1. Check that everything is OK with this command:
 
-		sudo docker image ls| grep crawler
+	sudo docker image ls| grep crawler
 
 	output has to be like that:
 
-		notion-proxy-ng-crawler       latest                           8f7e74d94547   3 days ago      1.58GB
+	notion-proxy-ng-crawler       latest                           8f7e74d94547   3 days ago      1.58GB
 
 ### Running the crawler container:
 
@@ -129,7 +129,7 @@ Run this container means download and parse Notion pages and convert them to sta
 
 Go to the **crawler/** directory and run:
 
-		sudo docker-compose up && sudo docker-compose down
+	sudo docker-compose up && sudo docker-compose down
 
 This is going to launch two containers:
 
@@ -148,13 +148,13 @@ Once everything works OK you can add the 'up' and 'down' process to the **cronta
 
 Point your browser to the URL of the Selenium Grid Server container, usually it will be:
 
-		http://localhost:4444
+	http://localhost:4444
 
 At this page there status information, like the session list and IDs.
 
 In the port 7900 there is a web VNC client which uses the password: **secret** with the browser session.
 
-		http://localhost:7900
+	http://localhost:7900
 
 **Remember** to change localhost to the container IP address if you are not running the crawler in your local machine.
 
@@ -162,7 +162,7 @@ In the port 7900 there is a web VNC client which uses the password: **secret** w
 
 If Selenium Grid Server has a stacked session next command can be useful:
 
-		curl -v --request DELETE 'http://localhost:4444/se/grid/node/session/<session_id>' --header 'X-REGISTRATION-SECRET;'
+	curl -v --request DELETE 'http://localhost:4444/se/grid/node/session/<session_id>' --header 'X-REGISTRATION-SECRET;'
 
 ## slugs
 
@@ -170,11 +170,11 @@ If Selenium Grid Server has a stacked session next command can be useful:
 
 Just point the prompt to the directory **get_slugs/** and execute:
 
-		docker-compose build
+	docker-compose build
 
 Then change owner of **cache/** directory:
 
-		chown 1000:1000 cache
+	chown 1000:1000 cache
 
 ### Running the continaer:
 
@@ -184,7 +184,7 @@ Slugs is a process which uses Notion API for creating a local cache of page ids 
 
 We organize our pages in tables, take a look at this, for an example:
 
-		https://notion.so/423b6065220d4879be893a604602f3fb
+	https://notion.so/423b6065220d4879be893a604602f3fb
 
 Start configuring the configuration file at **get_slugs/config/default.json**. You can copy the content of the example file at: get_slugs/config/config.json.example.
 
@@ -192,7 +192,7 @@ If you don't have Notion API key follow the instructions at: https://developers.
 
 When it's configured, it's time to run the process manually, go to **get_slugs/** directory and execute:
 
-		./run.sh
+	./run.sh
 
 If everything works OK exit code will be 0 and cache file will have a JSON file, check file timestamp for ensuring it is created just when the script finishes the execution.
 
@@ -204,7 +204,7 @@ By default port used is **:3333**, you can change it just modifying **docker-com
 
 Finally just run:
 
-		docker-compose up -d
+	docker-compose up -d
 
 # Thanks
 
