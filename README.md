@@ -31,7 +31,7 @@ Project has three parts,
 
 ## Clonning repository
 
-		git clone git@github.com:equiposinoficina/notion-proxy-ng.git
+	git clone git@github.com:equiposinoficina/notion-proxy-ng.git
 
 From here, we assume work directory is at **notion-proxy-ng/**.
 
