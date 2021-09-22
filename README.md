@@ -29,7 +29,7 @@ Project has three parts,
 
 # Set up process
 
-## Clonging repository
+## Clonning repository
 
 		git clone git@github.com:equiposinoficina/notion-proxy-ng.git
 
