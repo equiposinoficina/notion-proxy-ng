@@ -32,8 +32,12 @@ const notion = new Client({
           lower: true,
           locale: 'es'
         })
-        slug.perma_link += response.results[item].properties['#'].number
-        json.page_slug.push(slug);
+        console.debug(response.results[item].properties);
+        if ('#' in response.results[item].properties) {
+          console.info('#', response.results[item].properties['#'].number);
+          slug.perma_link += response.results[item].properties['#'].number
+          json.page_slug.push(slug);
+        }
       }
     }
   }
