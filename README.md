@@ -77,7 +77,7 @@ giving execution permissions to docker-compose
 
 ## Crawler
 
-### Building the crawler cotntainer:
+### Building the crawler container:
 
 1. Edit **crawler/config/site.toml** with your parameters, file is auto descriptive:
 
