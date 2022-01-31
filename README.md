@@ -221,7 +221,7 @@ Finally just run:
 # Thanks
 
 * Crawler code is based on [loconotion](https://github.com/leoncvlt/loconotion "loconotion") created by Leonardo Cavaletti <impeto.blu@gmail.com>, thanks for your great work Leonardo.
-* loconotion uses chromedriver integrated on its container but it didn't work as good as we expecte and we decided to use a project called [Selenium Grid Server](https://github.com/SeleniumHQ/docker-selenium), so thanks a lot for so great job guys.
+* loconotion uses chromedriver integrated on its container but it didn't work as good as we expected and we decided to use a project called [Selenium Grid Server](https://github.com/SeleniumHQ/docker-selenium), so thanks a lot for so great job guys.
 * Another inspiring author is Aitor Roma who created https://github.com/aitorroma/aitorroma.com
 * Thanks to https://pandao.github.io/editor.md/en.html for helping us with the markdown language.
 * And inite thanks to all authors of the Open Sources project that we integrated and supported our code.
