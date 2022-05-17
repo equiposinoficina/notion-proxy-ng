@@ -22,6 +22,7 @@ services:
       - "youtube.com:127.0.0.1"
       - "www.youtube.com:127.0.0.1"
       - "industry40.systems:127.0.0.1"
+      - "s3.us-west-2.amazonaws.com:127.0.0.1"
   selenium-chrome:
     image: 'selenium/standalone-chrome:4.0.0-rc-1-prerelease-20210823'
     shm_size: 2gb

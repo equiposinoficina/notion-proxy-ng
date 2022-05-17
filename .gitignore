@@ -1,3 +1,4 @@
 site/static_files
 cache/
 http/var
+crawler/crontab_crawler.log*

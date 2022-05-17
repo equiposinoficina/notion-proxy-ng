@@ -65,6 +65,25 @@ a[data-token-index] svg.page {
   height: auto !important;
 }
 
+/*
+@media only screen and (orientation:portrait) and (max-width: 960px){
+  body {
+    height: 100vw;
+    transform: rotate(90deg);
+  }
+}
+*/
+
+/* style the elements with CSS */
+#pleaserotate-graphic{
+  fill: #fff;
+}
+
+#pleaserotate-backdrop {
+  color: #fff;
+  background-color: #000;
+}
+
 /* mobile fixes */
 @media only screen and (max-width: 960px) {
   /* normalizes banner / page title width */

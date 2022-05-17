@@ -147,7 +147,7 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-        result = subprocess.run(["docker", "stop", "crawler_standalone-chrome_1"])
+        result = subprocess.run(["docker", "stop", "crawler_selenium-chrome_1"])
     except KeyboardInterrupt:
         log.critical("Interrupted by user")
         try:

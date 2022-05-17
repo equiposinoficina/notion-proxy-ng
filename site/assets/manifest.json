@@ -1,0 +1,24 @@
+{
+  "name": "Nube Colectiva",
+  "short_name": "NubeColectiva",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation":  "landscape",
+  "background_color": "#fff",
+  "description": "El conocimiento en la Nube es Colectivo. Compartimos Tutoriales y Recursos sobre Desarrollo Web, Back-end, Front-end, Aplicaciones Móviles, UX, UI, Seguridad Web, etc.",
+  "icons": [{
+    "src": "img/tactil/home48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "img/touch/home72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  },
+  {
+  "related_applications": [{
+    "platform": "play",
+    "url": "https://play.google.com/store"
+  }]
+  }]
+}

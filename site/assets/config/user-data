@@ -1,0 +1,44 @@
+#cloud-config
+autoinstall:
+  version: 1
+  refresh-installer:  # start with an up-to-date installer
+  update: yes
+  #interactive-sections:  # Install groups listed here will wait for user input
+  #  - storage
+  locale: es_ES
+  keyboard:
+    layout: es
+    variant: ''
+  identity:
+    hostname: iot-gw
+    username: i40sys
+    # ark1124./ORCRFP
+    password: "$6$x8C5PzPPhR3.T9u$6DqcXzG7peW0p4ffwBd.Wwjdtann97W5ADDAJhPxklApYCb7h2l8r3abom0A5rGlp40ZNXYIeNffTV2O73SHX/"
+    realname: i40sys
+  storage:
+    version: 1
+    layout:
+      name: lvm
+  network:
+    network:
+      version: 2
+      ethernets:
+        enp1s0:
+          dhcp4: true
+          #addresses:
+          #  - 10.46.0.5/24
+          #gateway4: 10.46.0.1
+          #nameservers:
+          #  addresses: [1.1.1.1]
+  ssh:
+    allow-pw: true
+    install-server: true
+    authorized-keys:
+      - "ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+eK+pQ//i6/y+nKk89SLAnKh1TY8yls/GLOWOd0fTyFMsNSwiwpI8L+1kuE5FP//Fa9I/TfbYsTCnG2k7l6nWN1nRS9D5lfFVnswCTvc20heYwZ3IUFnNsLIxH1RMhSCaJOmmtmvdzq7wRxXeIEze29saqDDRu51ARQs4dkY+5XXlo1cpLnjk0bZ1FmiiExHUa+Sc+5OVI2BcvyU/Jgbq18XjkEhG4DblCfjUw2huvkx+O8w43hVWS3TWZmS3bK4F5FE5OSZhEubusSVXXMrPzALigpVdkfNzZCPMDv7Y45gSpOZUy4/r/E00csTpw9I0ysQclySAmzj26/Syk14L oriol@mini6"
+  package_update: true
+  package_upgrade: true
+  packages:
+  #  - build-essential
+    - net-tools
+  user-data:
+    timezone: Europe/Madrid
