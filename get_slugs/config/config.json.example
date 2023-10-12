@@ -1,7 +1,7 @@
 {
   "NOTION_API": "",
   "DATABASE_IDS": {
-    "DATABASE_NAME":"DATABASE_ID",
+    "DATABASE_NAME":"DATABASE_ID"
   },
   "SLUGS_JSON": "/notion-proxy/cache/slugs.json"
 }
