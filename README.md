@@ -198,6 +198,9 @@ We organize our pages in tables, take a look at this, for an example:
 
 	https://notion.so/423b6065220d4879be893a604602f3fb
 
+Note if you are getting this error: [ERROR] table content empty, file not written.  You need to add a property. I added a number property named # (per the example) and assigned them accordingy. 
+
+
 Start configuring the configuration file at **get_slugs/config/default.json**. You can copy the content of the example file at: get_slugs/config/config.json.example.
 
 If you don't have Notion API key follow the instructions at: https://developers.notion.com/docs/getting-started
